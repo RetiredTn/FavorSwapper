@@ -1,28 +1,28 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styled from 'styled-components'
-import { TopBar } from '../components/topbar';
 import { Request, RequestAdmin, Blank } from '../components/requestPost'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import io from 'Socket.IO-client'
 let socket;
 
 const Container = styled.div`
   width: 100vw;
   max-height: 100vh;
+  min-height: 100vh;
+  background-color: #1f1f1f;
 `;
 const MiddleAccordion = styled.div`
-  background-color: white;
+  background-color: #323232;
   max-width: 95vw;
   margin-left: 2.5vw;
-  box-shadow: 0 0 10px 0 white;
+  box-shadow: 0 0 10px 0 #323232;
 `;
 const RequestFormAccordion = styled.div`
-  background-color: white;
+  background-color: #323232;
   max-width: 95vw;
   margin-left: 2.5vw;
-  box-shadow: 0 0 10px 0 white;
+  box-shadow: 0 0 10px 0 #323232;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 `;
@@ -30,6 +30,8 @@ const RequestFormWrapper = styled.div`
   overflow: hidden;
   transition: max-height 0.2s;
   padding: 0 15px;
+  color: white;
+  background-color: #323232;
 `;
 const Handle = styled.button`
   text-align: center;
@@ -44,27 +46,28 @@ const Handle = styled.button`
   width: 65vw;
   margin-left: 15vw;
   border-radius: 25px;
+  color: white;
 `;
 const FormInput = styled.input`
   height: 40px;
   border-radius: 20px;
   padding: 7.5px;
-  border: solid 5px #ff96ca;
+  border: solid 5px #999999;
   outline: none;
-  background-color: #1111;
+  background-color: #323232;
   margin-bottom: 10px;
+  color: white;
 
   &:focus {
     background-color: rgb(100,100,100,0.3)
   }
 `;
 const Top = styled.div`
-  background-color: white;
+  background-color: #323232;
   width: 95vw;
   height: 35vh;
-  margin-top: 2.5vw;
   margin-left: 2.5vw;
-  box-shadow: 0 0 10px 0 white;
+  box-shadow: 0 0 10px 0 #323232;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -77,6 +80,7 @@ const NameBar = styled.p`
   font-size: 500%;
   font-family: PrettyFont;
   padding: 0;
+  color: white;
   margin: 0;
 `;
 const Box = styled.div`
@@ -84,10 +88,11 @@ const Box = styled.div`
   width: ${props => props.W || "70%"};
   height: ${props => props.H || "30%"};
   text-align: center;
-  background-color: #FFB6C1;
   font-size: x-large;
   font-weight: bold;
   padding: 10px;
+  color: white;
+  background-color: grey;
 `;
 const CountMove = styled.button`
   height: 75px;
@@ -104,11 +109,10 @@ const CountMove = styled.button`
 `;
 
 
-
 export async function getServerSideProps() {
-  const res0 = await fetch('http://localhost:3000/api/GetRequests?Who=Isa');
+  const res0 = await fetch('http://localhost:3000/api/GetRequests?Who=Joel');
   const response0 = await res0.json();
-  const res1 = await fetch('http://localhost:3000/api/GetRequests?Who=Joel');
+  const res1 = await fetch('http://localhost:3000/api/GetRequests?Who=Isa');
   const response1 = await res1.json();
   
   const res2 = await fetch('http://localhost:3000/api/getFavorCount');
@@ -169,8 +173,8 @@ export default function Home({ Entries, Requests, Count }) {
     let form = document.getElementById('RequestSendForm')
     document.getElementById('RequestsAcc').click()
     if (Count[0].isa > 0) {
-      fetch(`api/SendRequest?Request=${NewRequest.value}&Urgency=${NewUrgency.value}&Who=Joel`, {method: 'POST'})
-      fetch(`api/FavorCountUpdate?Who=IsaFavorCount&Count=${(Count[0].isa)-1}`, {method: 'PATCH'})
+      fetch(`api/SendRequest?Request=${NewRequest.value}&Urgency=${NewUrgency.value}&Who=Isa`, {method: 'POST'})
+      fetch(`api/FavorCountUpdate?Who=JoelFavorCount&Count=${(Count[0].isa)-1}`, {method: 'PATCH'})
 
       form.reset()
       socket.emit('ReloadEntries')
@@ -179,7 +183,7 @@ export default function Home({ Entries, Requests, Count }) {
   async function SendFavor(event) {
     event.preventDefault()
     let Counter = Number(document.getElementById('Counter').innerText)
-    fetch(`api/FavorCountUpdate?Who=JoelFavorCount&Count=${(Count[0].joel)+Counter}`, {method: 'PATCH'})
+    fetch(`api/FavorCountUpdate?Who=IsaFavorCount&Count=${(Count[0].isa)+Counter}`, {method: 'PATCH'})
 
     document.getElementById('FavorsAcc').click()
     document.getElementById('Counter').innerText = 0
@@ -194,28 +198,29 @@ export default function Home({ Entries, Requests, Count }) {
     else if (id == '3') { Status = 'Done' }
     console.log(Status)
     
-    await fetch(`api/StatusChange?Who=Isa&Status=${Status}&Record=${Record}`)
+    await fetch(`api/StatusChange?Who=Joel&Status=${Status}&Record=${Record}`)
     socket.emit('ReloadEntries')
   }
   async function MarkAsDone(event) {
     event.preventDefault();
     let Record = event.target.id
     
-    fetch(`api/RemoveRequest?Who=Joel&Record=${Record}`)
+    fetch(`api/RemoveRequest?Who=Isa&Record=${Record}`)
     socket.emit('ReloadEntries')
   }
 
   return (
     <Container>
-      <img style={{objectFit: 'fill', zIndex: '-1000', maxHeight: '100vh', Width: '100vw', position: 'fixed', top: '0', left: '0'}} src={'bg.jpg'}></img>
       <Head>
         <title>Favor Swapper</title>
         <meta name="description" content="Merry X-Mas Isa :)" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <div style={{height: '2.5vw'}}/>
       <Top>
-        <NameBar>— Isabella —</NameBar>
-        <Box>Remaining <br/>Favors: {Count[0].isa}</Box>
+        <NameBar>— Joel —</NameBar>
+        <Box>Remaining <br/>Favors: {Count[0].joel}</Box>
         <div style={{height: '5vh'}}></div>
       </Top>
 
@@ -224,7 +229,7 @@ export default function Home({ Entries, Requests, Count }) {
         <RequestFormWrapper style={{maxHeight: '0px'}}>
           <div style={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap'}}>
             <div style={{height: '3vh'}}/>
-            {Requests?.length === 0 ? (  <Blank Request={'No one has requested anything yet :)'}></Blank>
+            {Requests?.length === 0 ? (  <Blank Request={'No one has requested anything yet :)'} Color={'black'}></Blank>
               ) : (
             Requests?.map( Entry => <RequestAdmin key={Entry.record} Request={Entry.text} Record={Entry.record} Urgency={Entry.time} MarkAsDone={MarkAsDone} StatusChange={StatusChange}></RequestAdmin> ))}
             <div style={{height: '3vh'}}/>
