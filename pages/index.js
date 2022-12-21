@@ -5,8 +5,7 @@ import { TopBar } from '../components/topbar';
 import { Request, RequestAdmin, Blank } from '../components/requestPost'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import io from 'Socket.IO-client'
-let socket;
+
 
 const Container = styled.div`
   width: 100vw;
@@ -148,21 +147,6 @@ function CountUp(event) {
 
 export default function Home({ Entries, Requests, Count }) {
   const router = useRouter()
-  useEffect(() => {
-    async function socketInitializer() {
-        await fetch('/api/socket');
-        socket = io()
-
-        socket.on('connect', () => {
-        console.log('connected')
-        })
-
-        socket.on('update-input', () => {
-            router.replace(router.asPath)
-        })
-    }
-    socketInitializer();
-  }, [])
 
   async function RequestSend(event) {
     event.preventDefault();
