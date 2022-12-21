@@ -166,13 +166,13 @@ export default function Home({ Entries, Requests, Count }) {
 
   async function RequestSend(event) {
     event.preventDefault();
-    let form = document.getElementById('RequestSendForm')
     document.getElementById('RequestsAcc').click()
     if (Count[0].isa > 0) {
       fetch(`api/SendRequest?Request=${NewRequest.value}&Urgency=${NewUrgency.value}&Who=Joel`, {method: 'POST'})
       fetch(`api/FavorCountUpdate?Who=IsaFavorCount&Count=${(Count[0].isa)-1}`, {method: 'PATCH'})
 
-      form.reset()
+      NewRequest.value = ''
+      NewUrgency.value = ''
       socket.emit('ReloadEntries')
     }
   }
@@ -202,7 +202,6 @@ export default function Home({ Entries, Requests, Count }) {
     let Record = event.target.id
     
     fetch(`api/RemoveRequest?Who=Joel&Record=${Record}`)
-    socket.emit('ReloadEntries')
   }
 
   return (
@@ -262,7 +261,7 @@ export default function Home({ Entries, Requests, Count }) {
         </RequestFormWrapper>
       </RequestFormAccordion>
 
-      <div style={{display: 'flex', justifyContent: 'center'}}>
+      <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
         {Entries?.length === 0 ? (  <Blank Request={'No one has requested anything yet :)'}></Blank>
           ) : (
         Entries?.map( Entry => <Request key={Entry.record} Request={Entry.text} Record={Entry.record} Urgency={Entry.time} Status={Entry.status} StatusChange={StatusChange}></Request> ))}

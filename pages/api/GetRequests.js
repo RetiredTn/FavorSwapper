@@ -7,6 +7,7 @@ export default function handler(req, res) {
   
   base(Who).select({
     fields: ["Request", "RequestedTime", "Status", "RecordID"],
+    view: "Grid view"
 }).eachPage(function page(records, fetchNextPage) {
     records.forEach(function(record) {
       Entries.push({text: record.get('Request'), time: record.get('RequestedTime'), status: record.get('Status'), record: record.get('RecordID')})

@@ -13,7 +13,7 @@ const Container = styled.div`
     border-radius: 10px;
     border: solid 5px #ff96ca;
 `;
-const Radio = styled.input.attrs({ type: "radio", name: 'Status' })`
+const Radio = styled.input.attrs({ type: "radio" })`
     accent-color: ${props => props.Color};
 `;
 const MarkAsDoneButton = styled.button`
@@ -54,15 +54,15 @@ export const Request = ({ children, Request, Record, Urgency, Status, StatusChan
                 <div style={{display: 'flex', flexDirection: 'row', columnGap: '30px', marginBottom: '20px'}}>
                     <label style={{display: 'flex', flexDirection: 'column'}}>
                         <div>To-Do</div>
-                        <Radio Color={'red'} id={`1${Record}`} onClick={StatusChange}/>
+                        <Radio Color={'red'} id={`1${Record}`} name={Record} onClick={StatusChange}/>
                     </label>
                     <label style={{display: 'flex', flexDirection: 'column'}}>
                         <div>In Progress</div>
-                        <Radio Color={'orange'} id={`2${Record}`} onClick={StatusChange}/>
+                        <Radio Color={'orange'} id={`2${Record}`} name={Record} onClick={StatusChange}/>
                     </label>
                     <label style={{display: 'flex', flexDirection: 'column'}}>
                         <div>Done</div>
-                        <Radio Color={'green'} id={`3${Record}`} onClick={StatusChange}/>
+                        <Radio Color={'green'} id={`3${Record}`} name={Record} onClick={StatusChange}/>
                     </label>             </div>
             </Container>
             {children}

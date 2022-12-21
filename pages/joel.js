@@ -170,13 +170,13 @@ export default function Home({ Entries, Requests, Count }) {
 
   async function RequestSend(event) {
     event.preventDefault();
-    let form = document.getElementById('RequestSendForm')
     document.getElementById('RequestsAcc').click()
     if (Count[0].isa > 0) {
       fetch(`api/SendRequest?Request=${NewRequest.value}&Urgency=${NewUrgency.value}&Who=Isa`, {method: 'POST'})
       fetch(`api/FavorCountUpdate?Who=JoelFavorCount&Count=${(Count[0].isa)-1}`, {method: 'PATCH'})
 
-      form.reset()
+      NewRequest.value = ''
+      NewUrgency.value = ''
       socket.emit('ReloadEntries')
     }
   }
@@ -259,8 +259,8 @@ export default function Home({ Entries, Requests, Count }) {
           <div>
             <div style={{height: '3vh'}}></div>
             <form onSubmit={RequestSend} id='RequestSendForm' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-              <label>Request: <FormInput id='NewRequest'></FormInput></label>
-              <label>Urgency: <FormInput id='NewUrgency'></FormInput></label>
+              <label style={{color: 'white'}}>Request: <FormInput id='NewRequest'></FormInput></label>
+              <label style={{color: 'white'}}>Urgency: <FormInput id='NewUrgency'></FormInput></label>
               <FormInput value={'Send!'} type={'submit'} style={{cursor: 'pointer'}}></FormInput>
             </form>
           </div>
