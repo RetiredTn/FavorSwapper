@@ -154,16 +154,16 @@ export default function Home({ Entries, Requests, Count }) {
   const router = useRouter()
   useEffect(() => {
     async function socketInitializer() {
-        await fetch('/api/socket');
-        socket = io()
+      await fetch('/api/socket');
+      socket = io()
 
-        socket.on('connect', () => {
-        console.log('connected')
-        })
+      socket.on('connect', () => {
+      console.log('connected')
+      })
 
-        socket.on('update-input', () => {
-            router.replace(router.asPath)
-        })
+      socket.on('update-input', () => {
+          router.replace(router.asPath)
+      })
     }
     socketInitializer();
   }, [])
