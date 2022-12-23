@@ -150,7 +150,7 @@ export default function Home({ Entries, Requests, Count }) {
   const router = useRouter()
   useEffect(() => {
     async function socketInitializer() {
-      await fetch('http://localhost:8081/api/socket');
+      await fetch('api/socket');
       socket = io()
 
       socket.on('connect', () => {
@@ -168,8 +168,8 @@ export default function Home({ Entries, Requests, Count }) {
     event.preventDefault();
     document.getElementById('RequestsAcc').click()
     if (Count[0].isa > 0) {
-      fetch(`http://localhost:8081/api/SendRequest?Request=${NewRequest.value}&Urgency=${NewUrgency.value}&Who=Joel`, {method: 'POST'})
-      fetch(`http://localhost:8081/api/FavorCountUpdate?Who=IsaFavorCount&Count=${(Count[0].isa)-1}`, {method: 'PATCH'})
+      fetch(`api/SendRequest?Request=${NewRequest.value}&Urgency=${NewUrgency.value}&Who=Joel`, {method: 'POST'})
+      fetch(`api/FavorCountUpdate?Who=IsaFavorCount&Count=${(Count[0].isa)-1}`, {method: 'PATCH'})
 
       NewRequest.value = ''
       NewUrgency.value = ''
@@ -179,7 +179,7 @@ export default function Home({ Entries, Requests, Count }) {
   async function SendFavor(event) {
     event.preventDefault()
     let Counter = Number(document.getElementById('Counter').innerText)
-    fetch(`http://localhost:8081/api/FavorCountUpdate?Who=JoelFavorCount&Count=${(Count[0].joel)+Counter}`, {method: 'PATCH'})
+    fetch(`api/FavorCountUpdate?Who=JoelFavorCount&Count=${(Count[0].joel)+Counter}`, {method: 'PATCH'})
 
     document.getElementById('FavorsAcc').click()
     document.getElementById('Counter').innerText = 0
@@ -194,14 +194,15 @@ export default function Home({ Entries, Requests, Count }) {
     else if (id == '3') { Status = 'Done' }
     console.log(Status)
     
-    await fetch(`http://localhost:8081/api/StatusChange?Who=Isa&Status=${Status}&Record=${Record}`)
+    await fetch(`api/StatusChange?Who=Isa&Status=${Status}&Record=${Record}`)
     socket.emit('ReloadEntries')
   }
   async function MarkAsDone(event) {
     event.preventDefault();
     let Record = event.target.id
     
-    fetch(`http://localhost:8081/api/RemoveRequest?Who=Joel&Record=${Record}`)
+    fetch(`api/RemoveRequest?Who=Joel&Record=${Record}`)
+    socket.emit('ReloadEntries')
   }
 
   return (
