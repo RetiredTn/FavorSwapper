@@ -5,7 +5,7 @@ import { TopBar } from '../components/topbar';
 import { Request, RequestAdmin, Blank } from '../components/requestPost'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import io from 'Socket.IO-client'
+import io from 'socket.io-client'
 let socket;
 
 const Container = styled.div`
