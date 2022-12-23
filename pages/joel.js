@@ -110,12 +110,12 @@ const CountMove = styled.button`
 
 
 export async function getServerSideProps() {
-  const res0 = await fetch('http://localhost:8081/api/GetRequests?Who=Joel');
+  const res0 = await fetch('http://45.23.68.151:8081/api/GetRequests?Who=Joel');
   const response0 = await res0.json();
-  const res1 = await fetch('http://localhost:8081/api/GetRequests?Who=Isa');
+  const res1 = await fetch('http://45.23.68.151:8081/api/GetRequests?Who=Isa');
   const response1 = await res1.json();
   
-  const res2 = await fetch('http://localhost:8081/api/getFavorCount');
+  const res2 = await fetch('http://45.23.68.151:8081/api/getFavorCount');
   const response2 = await res2.json();
   
   return { props: {
@@ -267,7 +267,7 @@ export default function Home({ Entries, Requests, Count }) {
         </RequestFormWrapper>
       </RequestFormAccordion>
 
-      <div style={{display: 'flex', justifyContent: 'center'}}>
+      <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
         {Entries?.length === 0 ? (  <Blank Request={'No one has requested anything yet :)'}></Blank>
           ) : (
         Entries?.map( Entry => <Request key={Entry.record} Request={Entry.text} Record={Entry.record} Urgency={Entry.time} Status={Entry.status} StatusChange={StatusChange}></Request> ))}

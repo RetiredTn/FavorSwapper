@@ -6,7 +6,7 @@ export default function handler(req, res) {
   let Record = req.query.Record;
   let Who = req.query.Who;
 
-  base(Who).destroy([Record], function(err, deletedRecords) {
+  base(Who).destroy([Record], function(err) {
     if (err) {
       console.error(err);
       return;

@@ -106,12 +106,12 @@ const CountMove = styled.button`
 
 
 export async function getServerSideProps() {
-  const res0 = await fetch('http://localhost:8081/api/GetRequests?Who=Isa');
+  const res0 = await fetch('http://45.23.68.151:8081/api/GetRequests?Who=Isa');
   const response0 = await res0.json();
-  const res1 = await fetch('http://localhost:8081/api/GetRequests?Who=Joel');
+  const res1 = await fetch('http://45.23.68.151:8081/api/GetRequests?Who=Joel');
   const response1 = await res1.json();
   
-  const res2 = await fetch('http://localhost:8081/api/getFavorCount');
+  const res2 = await fetch('http://45.23.68.151:8081/api/getFavorCount');
   const response2 = await res2.json();
   
   return { props: {
@@ -150,7 +150,7 @@ export default function Home({ Entries, Requests, Count }) {
   const router = useRouter()
   useEffect(() => {
     async function socketInitializer() {
-      await fetch('/api/socket');
+      await fetch('http://45.23.68.151:8081/api/socket');
       socket = io()
 
       socket.on('connect', () => {
@@ -161,15 +161,15 @@ export default function Home({ Entries, Requests, Count }) {
           router.replace(router.asPath)
       })
     }
-    socketInitializer();
+    socketInitializer()
   }, [])
 
   async function RequestSend(event) {
     event.preventDefault();
     document.getElementById('RequestsAcc').click()
     if (Count[0].isa > 0) {
-      fetch(`api/SendRequest?Request=${NewRequest.value}&Urgency=${NewUrgency.value}&Who=Joel`, {method: 'POST'})
-      fetch(`api/FavorCountUpdate?Who=IsaFavorCount&Count=${(Count[0].isa)-1}`, {method: 'PATCH'})
+      fetch(`http://45.23.68.151:8081/api/SendRequest?Request=${NewRequest.value}&Urgency=${NewUrgency.value}&Who=Joel`, {method: 'POST'})
+      fetch(`http://45.23.68.151:8081/api/FavorCountUpdate?Who=IsaFavorCount&Count=${(Count[0].isa)-1}`, {method: 'PATCH'})
 
       NewRequest.value = ''
       NewUrgency.value = ''
@@ -179,7 +179,7 @@ export default function Home({ Entries, Requests, Count }) {
   async function SendFavor(event) {
     event.preventDefault()
     let Counter = Number(document.getElementById('Counter').innerText)
-    fetch(`api/FavorCountUpdate?Who=JoelFavorCount&Count=${(Count[0].joel)+Counter}`, {method: 'PATCH'})
+    fetch(`http://45.23.68.151:8081/api/FavorCountUpdate?Who=JoelFavorCount&Count=${(Count[0].joel)+Counter}`, {method: 'PATCH'})
 
     document.getElementById('FavorsAcc').click()
     document.getElementById('Counter').innerText = 0
@@ -194,14 +194,14 @@ export default function Home({ Entries, Requests, Count }) {
     else if (id == '3') { Status = 'Done' }
     console.log(Status)
     
-    await fetch(`api/StatusChange?Who=Isa&Status=${Status}&Record=${Record}`)
+    await fetch(`http://45.23.68.151:8081/api/StatusChange?Who=Isa&Status=${Status}&Record=${Record}`)
     socket.emit('ReloadEntries')
   }
   async function MarkAsDone(event) {
     event.preventDefault();
     let Record = event.target.id
     
-    fetch(`api/RemoveRequest?Who=Joel&Record=${Record}`)
+    fetch(`http://45.23.68.151:8081/api/RemoveRequest?Who=Joel&Record=${Record}`)
   }
 
   return (

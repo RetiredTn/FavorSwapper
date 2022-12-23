@@ -16,7 +16,7 @@ export default function handler(req, res) {
       console.error(err);
       return;
     }
-    res.status(200).send({PostEntry, success: true, data: {rec: record.getId()}}) //DATA PASSES RECORD ID TO BE USED AS ID VARIABLE
+    res.status(200).send('Success!')
     console.log(record.getId())
   });
 }
