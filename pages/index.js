@@ -205,6 +205,18 @@ export default function Home({ Entries, Requests, Count }) {
     socket.emit('ReloadEntries')
   }
 
+  window.OneSignal = window.OneSignal || [];
+  OneSignal.push(function() {
+    OneSignal.init({
+      appId: "2ddca4d1-5ab3-44d4-a773-10bf131f1d63",
+      safari_web_id: "",
+      notifyButton: {
+        enable: true,
+      },
+      subdomainName: "favor-swapper",
+    });
+  });
+
   return (
     <Container>
       <img style={{objectFit: 'fill', zIndex: '-1000', maxHeight: '100vh', Width: '100vw', position: 'fixed', top: '0', left: '0'}} src={'bg.jpg'}></img>
@@ -212,6 +224,8 @@ export default function Home({ Entries, Requests, Count }) {
         <title>Favor Swapper</title>
         <meta name="description" content="Merry X-Mas Isa :)" />
         <link rel="icon" href="/favicon.ico" />
+
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
       </Head>
       <Top>
         <NameBar>— Isabella —</NameBar>
@@ -254,8 +268,8 @@ export default function Home({ Entries, Requests, Count }) {
           <div>
             <div style={{height: '3vh'}}></div>
             <form onSubmit={RequestSend} id='RequestSendForm' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-              <label>Request: <FormInput id='NewRequest'></FormInput></label>
-              <label>Urgency: <FormInput id='NewUrgency'></FormInput></label>
+              <label>Request: <FormInput id='NewRequest' autoComplete='off'></FormInput></label>
+              <label>Urgency: <FormInput id='NewUrgency' autoComplete='off'></FormInput></label>
               <FormInput value={'Send!'} type={'submit'} style={{cursor: 'pointer'}}></FormInput>
             </form>
           </div>
