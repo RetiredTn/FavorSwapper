@@ -171,7 +171,7 @@ export default function Home({ Entries, Requests, Count }) {
   async function RequestSend(event) {
     event.preventDefault();
     document.getElementById('RequestsAcc').click()
-    if (Count[0].isa > 0) {
+    if (Count[0].joel > 0) {
       fetch(`api/SendRequest?Request=${NewRequest.value}&Urgency=${NewUrgency.value}&Who=Isa`, {method: 'POST'})
       fetch(`api/FavorCountUpdate?Who=JoelFavorCount&Count=${(Count[0].joel)-1}`, {method: 'PATCH'})
 
