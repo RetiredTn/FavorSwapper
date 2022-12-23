@@ -106,12 +106,12 @@ const CountMove = styled.button`
 
 
 export async function getServerSideProps() {
-  const res0 = await fetch('http://localhost:3000/api/GetRequests?Who=Isa');
+  const res0 = await fetch('http://localhost:8081/api/GetRequests?Who=Isa');
   const response0 = await res0.json();
-  const res1 = await fetch('http://localhost:3000/api/GetRequests?Who=Joel');
+  const res1 = await fetch('http://localhost:8081/api/GetRequests?Who=Joel');
   const response1 = await res1.json();
   
-  const res2 = await fetch('http://localhost:3000/api/getFavorCount');
+  const res2 = await fetch('http://localhost:8081/api/getFavorCount');
   const response2 = await res2.json();
   
   return { props: {
