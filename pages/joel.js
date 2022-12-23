@@ -173,7 +173,7 @@ export default function Home({ Entries, Requests, Count }) {
     document.getElementById('RequestsAcc').click()
     if (Count[0].isa > 0) {
       fetch(`api/SendRequest?Request=${NewRequest.value}&Urgency=${NewUrgency.value}&Who=Isa`, {method: 'POST'})
-      fetch(`api/FavorCountUpdate?Who=JoelFavorCount&Count=${(Count[0].isa)-1}`, {method: 'PATCH'})
+      fetch(`api/FavorCountUpdate?Who=JoelFavorCount&Count=${(Count[0].joel)-1}`, {method: 'PATCH'})
 
       NewRequest.value = ''
       NewUrgency.value = ''
